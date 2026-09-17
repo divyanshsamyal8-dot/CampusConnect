@@ -1,0 +1,81 @@
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .comm-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .comm-sidebar {
+    width: 100%;
+    max-height: 250px;
+  }
+
+  .canteen-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .friends-container {
+    grid-template-columns: 1fr;
+  }
+
+  .friend-search-card {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .app-container {
+    flex-direction: column;
+  }
+
+  nav.sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 260px;
+    height: calc(100vh - 60px);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  nav.sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .mobile-navbar {
+    display: flex;
+  }
+
+  .view-section {
+    padding: 15px;
+  }
+
+  .post-creation-row {
+    flex-direction: column;
+  }
+
+  .messenger-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .user-list {
+    width: 100%;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .bubble {
+    max-width: 85%;
+  }
+
+  .action-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}

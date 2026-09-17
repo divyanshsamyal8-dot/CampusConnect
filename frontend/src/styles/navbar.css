@@ -1,0 +1,28 @@
+/* Top Navbar (Mobile / Header view) */
+.mobile-navbar {
+  display: none;
+  background: var(--sidebar);
+  color: white;
+  padding: 15px 20px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 99;
+}
+
+.mobile-navbar-logo {
+  font-size: 20px;
+  font-weight: 800;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}

@@ -1,0 +1,106 @@
+/* Sidebar Navigation */
+nav.sidebar {
+  width: 260px;
+  background: var(--sidebar);
+  color: white;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--sidebar) 0%, #16213e 100%);
+  box-shadow: 5px 0 25px rgba(0, 0, 0, 0.1);
+  animation: slideInLeft 0.6s ease-out;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.logo {
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 40px;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+  text-decoration: none;
+  display: block;
+}
+
+.logo::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: var(--gradient-1);
+  border-radius: 2px;
+}
+
+.nav-item {
+  padding: 15px 20px;
+  cursor: pointer;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid transparent;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+  border-left: 4px solid var(--primary-light);
+}
+
+.nav-item.active {
+  background: var(--gradient-1);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+  transform: translateX(5px);
+  border-left: 4px solid white;
+  animation: pulse 2s infinite;
+}
+
+.nav-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px 10px 0 10px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-version {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.sidebar-user-name {
+  font-size: 14px;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.sidebar-user-roll {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 5px;
+  font-family: monospace;
+}
