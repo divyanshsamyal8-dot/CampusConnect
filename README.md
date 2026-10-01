@@ -87,6 +87,7 @@ CampusConnect/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - **Node.js**: v18.0.0 or higher
 - **npm**: v9.0.0 or higher
 
@@ -116,53 +117,61 @@ cd ../backend && npm install
 ## 💻 Running the Application
 
 ### Concurrent Development (Recommended)
+
 From the root directory:
+
 ```bash
 npm run dev
 ```
+
 This runs both the Express backend (`http://localhost:5000`) and the Vite React frontend (`http://localhost:5173`) concurrently.
 
 ### Running Separately
 
 **Frontend Only:**
+
 ```bash
 cd frontend
 npm run dev
 ```
+
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 **Backend Only:**
+
 ```bash
 cd backend
 npm run dev
 ```
+
 The API server will listen on [http://localhost:5000](http://localhost:5000).
 
 ---
 
 ## 📡 API Endpoints Overview
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/health` | Server health check |
-| `GET` | `/api/posts` | Fetch all posts (supports `?search=` and `?tag=`) |
-| `POST` | `/api/posts` | Create a new post |
-| `POST` | `/api/posts/:id/like` | Toggle like on a post |
-| `POST` | `/api/posts/:id/comments` | Add comment or reply to a post |
-| `GET` | `/api/communities` | List all communities |
-| `POST` | `/api/communities` | Create a new community group |
-| `POST` | `/api/communities/:name/join` | Join a community |
-| `POST` | `/api/communities/:name/messages` | Send message in community chat |
-| `GET` | `/api/friends` | Retrieve user's friends and pending requests |
-| `POST` | `/api/friends/request` | Send friend request by roll number |
-| `POST` | `/api/friends/accept` | Accept friend request |
-| `POST` | `/api/friends/decline` | Decline friend request |
-| `DELETE` | `/api/friends/:rollNumber` | Remove a friend |
-| `GET` | `/api/canteen/menu` | Get canteen menu items |
-| `POST` | `/api/canteen/order` | Place a canteen food order |
-| `POST` | `/api/support` | Submit confidential support desk ticket |
+| Method   | Endpoint                          | Description                                       |
+| -------- | --------------------------------- | ------------------------------------------------- |
+| `GET`    | `/api/health`                     | Server health check                               |
+| `GET`    | `/api/posts`                      | Fetch all posts (supports `?search=` and `?tag=`) |
+| `POST`   | `/api/posts`                      | Create a new post                                 |
+| `POST`   | `/api/posts/:id/like`             | Toggle like on a post                             |
+| `POST`   | `/api/posts/:id/comments`         | Add comment or reply to a post                    |
+| `GET`    | `/api/communities`                | List all communities                              |
+| `POST`   | `/api/communities`                | Create a new community group                      |
+| `POST`   | `/api/communities/:name/join`     | Join a community                                  |
+| `POST`   | `/api/communities/:name/messages` | Send message in community chat                    |
+| `GET`    | `/api/friends`                    | Retrieve user's friends and pending requests      |
+| `POST`   | `/api/friends/request`            | Send friend request by roll number                |
+| `POST`   | `/api/friends/accept`             | Accept friend request                             |
+| `POST`   | `/api/friends/decline`            | Decline friend request                            |
+| `DELETE` | `/api/friends/:rollNumber`        | Remove a friend                                   |
+| `GET`    | `/api/canteen/menu`               | Get canteen menu items                            |
+| `POST`   | `/api/canteen/order`              | Place a canteen food order                        |
+| `POST`   | `/api/support`                    | Submit confidential support desk ticket           |
 
 ---
 
 ## 📄 License
+
 MIT License. Built with ❤️ for Campus Connect.
