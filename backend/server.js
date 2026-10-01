@@ -26,8 +26,5 @@ app.use('*', (req, res) => {
 // Centralized error handler
 app.use(errorHandler);
 
-// Start server
-app.listen(config.port, () => {
-  console.log(`🚀 Campus Connect API Server running at http://localhost:${config.port}`);
-  console.log(`📡 Health check available at http://localhost:${config.port}/api/health`);
-});
+// To Vercel
+export default app;
