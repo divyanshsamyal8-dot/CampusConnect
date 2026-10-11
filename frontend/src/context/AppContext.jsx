@@ -184,10 +184,31 @@ export function AppProvider({ children }) {
   };
 
   // 3. Posts & Feed
-  const [posts, setPosts] = useState(() =>
-    loadFromStorage('campusConnectPosts', initialPosts)
-  );
+  
+const [posts, setPosts] = useState(() =>
+  loadFromStorage('campusConnectPosts', initialPosts)
+);
+const fetchPosts = async () => {
+  try {
+    const response = await fetch(`${API_URL}/posts`);
 
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
+    }
+
+    const result = await response.json();
+
+    if (result.success && Array.isArray(result.data)) {
+      setPosts(result.data);
+    }
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+  }
+};
+
+useEffect(() => {
+  fetchPosts();
+}, []);
   const [comments, setComments] = useState(() =>
     loadFromStorage('campusConnectComments', initialComments)
   );
