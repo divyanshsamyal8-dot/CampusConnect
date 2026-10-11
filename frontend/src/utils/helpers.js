@@ -7,12 +7,12 @@ export function validateRollNumber(rollNumber) {
 }
 
 export const GRADIENTS = [
-  'linear-gradient(135deg, #4361ee, #3a0ca3)',
-  'linear-gradient(135deg, #7209b7, #ef476f)',
-  'linear-gradient(135deg, #ff9e00, #ff0054)',
-  'linear-gradient(135deg, #00b4d8, #06d6a0)',
-  'linear-gradient(135deg, #ef476f, #ff9e00)',
-  'linear-gradient(135deg, #3a0ca3, #7209b7)',
+  '#2563EB',
+  '#7C3AED',
+  '#0D9488',
+  '#EA580C',
+  '#DB2777',
+  '#4F46E5',
 ];
 
 export function getRandomGradient() {

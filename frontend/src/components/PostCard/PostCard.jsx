@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import CommentList from '../Comment/CommentList';
+import {
+  ThumbsUpIcon,
+  MessageCircleIcon,
+  Share2Icon,
+  UserPlusIcon,
+  UserCheckIcon,
+  CheckIcon,
+} from '../Icons/Icons';
 import '../../styles/posts.css';
+
+// Helper to determine clean borderless pastel tag styling
+function getTagClass(tag = '') {
+  const lower = tag.toLowerCase();
+  if (lower.includes('study')) return 'pastel-tag-purple';
+  if (lower.includes('social') || lower.includes('music') || lower.includes('creative')) return 'pastel-tag-pink';
+  if (lower.includes('sports') || lower.includes('event')) return 'pastel-tag-amber';
+  if (lower.includes('tech') || lower.includes('career') || lower.includes('science')) return 'pastel-tag-blue';
+  if (lower.includes('question') || lower.includes('idea')) return 'pastel-tag-teal';
+  return 'pastel-tag-default';
+}
 
 export default function PostCard({ post }) {
   const {
@@ -12,6 +31,7 @@ export default function PostCard({ post }) {
   } = useApp();
 
   const [commentsExpanded, setCommentsExpanded] = useState(false);
+  const [copiedToast, setCopiedToast] = useState(false);
 
   const handleShare = () => {
     const shareUrl = `${window.location.origin}#post-${post.id}`;
@@ -23,7 +43,8 @@ export default function PostCard({ post }) {
       }).catch(() => {});
     } else {
       navigator.clipboard.writeText(shareUrl);
-      alert('Post link copied to clipboard!');
+      setCopiedToast(true);
+      setTimeout(() => setCopiedToast(false), 2000);
     }
   };
 
@@ -34,84 +55,101 @@ export default function PostCard({ post }) {
     !post.isAnon;
 
   return (
-    <div className="card post-card" id={`post-${post.id}`}>
+    <article className="card post-card" id={`post-${post.id}`}>
+      {/* Post Top Header */}
       <div className="post-header">
-        <div className="post-author">
+        <div className="post-author-row">
           <div
             className="author-avatar"
-            style={{ background: post.avatarColor || 'var(--gradient-1)' }}
+            style={{
+              backgroundColor: post.isAnon
+                ? '#71717A'
+                : post.avatarColor || '#2563EB',
+            }}
           >
-            {post.authorInitial || (post.author ? post.author.charAt(0).toUpperCase() : 'A')}
+            {post.isAnon ? 'A' : (post.authorInitial || (post.author ? post.author.charAt(0).toUpperCase() : 'S'))}
           </div>
-          <div>
-            <div style={{ fontWeight: 700, fontSize: '16px' }}>{post.author}</div>
-            <div className="post-meta">
-              {post.date} at {post.time}
-              {post.tag && <span className="post-tag">{post.tag}</span>}
-            </div>
-            {post.authorRoll && (
-              <div style={{ marginTop: '5px', fontSize: '13px', color: '#64748b' }}>
-                <strong>Roll:</strong>{' '}
-                <span
-                  style={{
-                    fontFamily: 'monospace',
-                    background: '#f8fafc',
-                    padding: '2px 6px',
-                    borderRadius: '4px',
-                  }}
-                >
-                  {post.authorRoll}
+
+          <div className="author-meta-col">
+            <div className="author-name-row">
+              <span className="author-name">{post.author}</span>
+
+              {!post.isAnon && post.authorRoll && (
+                <span className="author-roll-badge">{post.authorRoll}</span>
+              )}
+
+              {post.tag && (
+                <span className={`borderless-pastel-tag ${getTagClass(post.tag)}`}>
+                  {post.tag}
                 </span>
-              </div>
-            )}
+              )}
+            </div>
+
+            <div className="post-timestamp">
+              {post.date} · {post.time}
+            </div>
           </div>
         </div>
 
+        {/* Light-teal Add Friend action */}
         {canAddFriend && (
-          <div style={{ marginTop: '10px' }}>
+          <div className="post-friend-action">
             {friendshipStatus === 'friends' ? (
               <button className="add-friend-btn friends" disabled>
-                <span>✓</span> Friends ✓
+                <UserCheckIcon size={14} />
+                <span>Connected</span>
               </button>
             ) : friendshipStatus === 'pending' ? (
               <button className="add-friend-btn pending" disabled>
-                <span>👤</span> Request Sent
+                <CheckIcon size={14} />
+                <span>Request Sent</span>
               </button>
             ) : (
               <button
                 className="add-friend-btn"
                 onClick={() => sendFriendRequest(post.authorRoll, post.author)}
               >
-                <span>👤</span> Add Friend
+                <UserPlusIcon size={14} />
+                <span>Add Friend</span>
               </button>
             )}
           </div>
         )}
       </div>
 
+      {/* Post Body Content */}
       <div className="post-content">{post.text}</div>
 
+      {/* Thin Outline Action Row */}
       <div className="post-actions">
         <button
-          className={`action-btn ${post.liked ? 'active' : ''}`}
+          className={`action-btn ${post.liked ? 'liked' : ''}`}
           onClick={() => likePost(post.id)}
+          aria-label="Like post"
         >
-          <span>👍</span> Like <span id={`like-count-${post.id}`}>{post.likes}</span>
+          <ThumbsUpIcon size={17} filled={post.liked} />
+          <span>{post.likes}</span>
+          <span className="action-btn-label">Like</span>
         </button>
 
         <button
           className={`action-btn ${commentsExpanded ? 'active' : ''}`}
           onClick={() => setCommentsExpanded((prev) => !prev)}
+          aria-label="View comments"
         >
-          <span>💬</span> Comments <span id={`comment-count-${post.id}`}>{post.comments}</span>
+          <MessageCircleIcon size={17} />
+          <span>{post.comments}</span>
+          <span className="action-btn-label">Comment</span>
         </button>
 
-        <button className="action-btn" onClick={handleShare}>
-          <span>🔄</span> Share
+        <button className="action-btn" onClick={handleShare} aria-label="Share post">
+          <Share2Icon size={17} />
+          <span className="action-btn-label">{copiedToast ? 'Copied!' : 'Share'}</span>
         </button>
       </div>
 
+      {/* Expanded Comments Section */}
       {commentsExpanded && <CommentList postId={post.id} />}
-    </div>
+    </article>
   );
 }

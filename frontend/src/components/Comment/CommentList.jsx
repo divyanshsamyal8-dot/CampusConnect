@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Comment from './Comment';
 import { useApp } from '../../context/AppContext';
+import { MessageCircleIcon } from '../Icons/Icons';
 import '../../styles/comments.css';
 
 export default function CommentList({ postId }) {
@@ -29,7 +30,8 @@ export default function CommentList({ postId }) {
   return (
     <div className="comments-section" id={`comments-${postId}`}>
       <div className="comments-count">
-        <span>💬</span> {postComments.length} {postComments.length === 1 ? 'Comment' : 'Comments'}
+        <MessageCircleIcon size={16} color="#71717A" />
+        <span>{postComments.length} {postComments.length === 1 ? 'Comment' : 'Comments'}</span>
       </div>
 
       <div className="comments-list">
@@ -38,7 +40,7 @@ export default function CommentList({ postId }) {
             <Comment key={comment.id} comment={comment} postId={postId} />
           ))
         ) : (
-          <div className="no-comments">No comments yet. Be the first to comment!</div>
+          <div className="no-comments">No comments yet. Start the conversation!</div>
         )}
 
         {remainingCount > 0 && (

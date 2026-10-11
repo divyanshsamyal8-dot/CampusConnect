@@ -1,28 +1,334 @@
-/* Top Navbar (Mobile / Header view) */
-.mobile-navbar {
-  display: none;
-  background: var(--sidebar);
-  color: white;
-  padding: 15px 20px;
+/* Main Minimalist Header */
+.main-header {
+  height: 64px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  z-index: 99;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 }
 
-.mobile-navbar-logo {
-  font-size: 20px;
-  font-weight: 800;
-  background: var(--gradient-1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-decoration: none;
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 240px;
 }
 
-.mobile-menu-btn {
+.mobile-toggle-btn {
+  display: none;
   background: none;
   border: none;
-  color: white;
-  font-size: 24px;
+  padding: 6px;
   cursor: pointer;
+  border-radius: var(--radius-sm);
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-toggle-btn:hover {
+  background-color: #F4F4F6;
+}
+
+/* Bold lowercase playful logo */
+.header-logo {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo-text {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #18181B;
+  text-transform: lowercase;
+}
+
+.logo-accent-blue {
+  color: #2563EB;
+}
+
+.logo-accent-purple {
+  color: #8B5CF6;
+}
+
+.logo-accent-teal {
+  color: #0D9488;
+}
+
+.logo-accent-amber {
+  color: #F59E0B;
+}
+
+/* Center Pill-shaped Light-Grey Search Bar (No Visible Border) */
+.header-center {
+  flex: 1;
+  max-width: 540px;
+  margin: 0 24px;
+}
+
+.header-search-pill {
+  display: flex;
+  align-items: center;
+  background-color: #F0F1F5;
+  border-radius: var(--radius-pill);
+  padding: 8px 18px;
+  gap: 10px;
+  border: none;
+  transition: var(--transition);
+}
+
+.header-search-pill:focus-within {
+  background-color: #EAEBF0;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.header-search-input {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 14px;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.header-search-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.header-search-input::placeholder {
+  color: #71717A;
+}
+
+.search-clear-btn {
+  background: none;
+  border: none;
+  color: #71717A;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.search-clear-btn:hover {
+  color: #18181B;
+  background-color: #D4D4D8;
+}
+
+/* Header Right Actions */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 140px;
+  justify-content: flex-end;
+}
+
+.header-item-wrapper {
+  position: relative;
+}
+
+.header-icon-btn {
+  background: none;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+}
+
+.header-icon-btn:hover {
+  background-color: #F4F4F6;
+}
+
+/* Minimalist outline notification bell with small blue notification dot */
+.notification-dot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 8px;
+  height: 8px;
+  background-color: #2563EB;
+  border-radius: 50%;
+  border: 1.5px solid #FFFFFF;
+}
+
+/* User Avatar */
+.header-avatar-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.user-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 14px;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Dropdowns */
+.header-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  width: 260px;
+  z-index: 200;
+  overflow: hidden;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.notif-dropdown {
+  width: 300px;
+}
+
+.dropdown-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.badge-pill {
+  background-color: #EFF6FF;
+  color: #2563EB;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.dropdown-body {
+  padding: 6px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+
+.dropdown-item.clickable {
+  cursor: pointer;
+}
+
+.dropdown-item.clickable:hover {
+  background-color: #F4F4F6;
+}
+
+.dropdown-item-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.dropdown-item-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.notif-indicator-blue {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2563EB;
+  flex-shrink: 0;
+}
+
+.notif-indicator-purple {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #8B5CF6;
+  flex-shrink: 0;
+}
+
+.dropdown-empty {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.user-info-header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.user-dropdown-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #18181B;
+}
+
+.user-dropdown-roll {
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--text-secondary);
+  background-color: #F4F4F6;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Mobile Responsiveness for Header */
+@media (max-width: 768px) {
+  .main-header {
+    padding: 0 16px;
+    height: 58px;
+  }
+
+  .mobile-toggle-btn {
+    display: inline-flex;
+  }
+
+  .header-left {
+    min-width: auto;
+  }
+
+  .header-center {
+    display: none; /* Move search into mobile feed view or overlay */
+  }
+
+  .header-right {
+    min-width: auto;
+    gap: 8px;
+  }
 }

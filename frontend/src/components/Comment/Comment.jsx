@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { ThumbsUpIcon, ChevronDownIcon } from '../Icons/Icons';
 
 export default function Comment({ comment, postId }) {
   const { likeComment, addComment, toggleReplies } = useApp();
@@ -21,11 +22,11 @@ export default function Comment({ comment, postId }) {
         <div className="comment-author">
           <div
             className="comment-author-avatar"
-            style={{ background: comment.avatarColor || 'var(--gradient-2)' }}
+            style={{ backgroundColor: comment.avatarColor || '#2563EB' }}
           >
             {comment.authorInitial || (comment.author ? comment.author.charAt(0).toUpperCase() : 'S')}
           </div>
-          <span>{comment.author}</span>
+          <span className="comment-author-name">{comment.author}</span>
         </div>
         <div className="comment-time">{comment.time}</div>
       </div>
@@ -34,37 +35,36 @@ export default function Comment({ comment, postId }) {
 
       <div className="comment-actions">
         <button
-          className={`action-btn ${comment.liked ? 'active' : ''}`}
+          className={`comment-action-btn ${comment.liked ? 'liked' : ''}`}
           onClick={() => likeComment(postId, comment.id)}
-          style={{ padding: '4px 10px', fontSize: '12px' }}
+          aria-label="Like comment"
         >
-          <span>👍</span> {comment.likes > 0 ? comment.likes : 'Like'}
+          <ThumbsUpIcon size={13} filled={comment.liked} />
+          <span>{comment.likes > 0 ? comment.likes : 'Like'}</span>
         </button>
 
         <button
-          className="reply-btn"
+          className="comment-action-btn"
           onClick={() => setShowReplyForm((prev) => !prev)}
         >
-          <span>↩️</span> Reply
+          <span>Reply</span>
         </button>
       </div>
 
       {showReplyForm && (
         <div className="reply-form active">
-          <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+          <div className="reply-input-row">
             <textarea
               className="comment-input"
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               placeholder={`Replying to ${comment.author}...`}
               rows={2}
-              style={{ minHeight: '45px', fontSize: '13px' }}
               autoFocus
             />
             <button
               className="comment-submit-btn"
               onClick={handleSendReply}
-              style={{ padding: '8px 16px', fontSize: '13px', alignSelf: 'flex-start' }}
             >
               Reply
             </button>
@@ -78,10 +78,18 @@ export default function Comment({ comment, postId }) {
             className="view-replies-btn"
             onClick={() => toggleReplies(postId, comment.id)}
           >
-            <span>{comment.showReplies ? '▼' : '▶'}</span>
-            {comment.showReplies
-              ? 'Hide replies'
-              : `View ${comment.replies.length} ${comment.replies.length === 1 ? 'reply' : 'replies'}`}
+            <ChevronDownIcon
+              size={14}
+              style={{
+                transform: comment.showReplies ? 'rotate(180deg)' : 'none',
+                transition: 'transform 0.2s',
+              }}
+            />
+            <span>
+              {comment.showReplies
+                ? 'Hide replies'
+                : `View ${comment.replies.length} ${comment.replies.length === 1 ? 'reply' : 'replies'}`}
+            </span>
           </button>
 
           {comment.showReplies && (

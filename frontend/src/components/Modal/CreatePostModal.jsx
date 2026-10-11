@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { validateRollNumber } from '../../utils/helpers';
+import { CheckIcon, XIcon } from '../Icons/Icons';
 
 export default function CreatePostModal({ isOpen, onClose }) {
   const { currentUser, addPost } = useApp();
@@ -48,7 +49,8 @@ export default function CreatePostModal({ isOpen, onClose }) {
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(24, 24, 27, 0.4)',
+        backdropFilter: 'blur(3px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -61,49 +63,68 @@ export default function CreatePostModal({ isOpen, onClose }) {
         className="card"
         style={{
           width: '100%',
-          maxWidth: '600px',
+          maxWidth: '580px',
           margin: 0,
-          animation: 'bounceIn 0.3s ease-out',
+          borderRadius: '24px',
+          boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ margin: 0, fontSize: '22px', color: '#2d3748' }}>Create a New Post</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+          <h2 style={{ margin: 0, fontSize: '18px', fontWeight: 700, color: '#18181B' }}>Create a New Post</h2>
           <button
             onClick={onClose}
             style={{
               background: 'none',
               border: 'none',
-              fontSize: '24px',
               cursor: 'pointer',
-              color: '#64748b',
+              color: '#71717A',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            ×
+            <XIcon size={20} />
           </button>
         </div>
 
-        <div className="post-creation-row">
-          <div>
+        <div className="create-inputs-grid">
+          <div className="input-group">
+            <label className="input-label">Student</label>
             <input
               type="text"
+              className="clean-outlined-input"
               placeholder="Enter your name..."
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className={`roll-input-container ${roll ? (isRollValid ? 'valid' : 'invalid') : ''}`}>
-            <input
-              type="text"
-              placeholder="Your Roll Number (NNNNAANNNN)"
-              maxLength={10}
-              value={roll}
-              onChange={(e) => handleRollChange(e.target.value)}
-            />
+          <div className="input-group">
+            <label className="input-label">Your Roll Number</label>
+            <div className="input-with-validation">
+              <input
+                type="text"
+                className={`clean-outlined-input ${roll ? (isRollValid ? 'is-valid' : 'is-invalid') : ''}`}
+                placeholder="NNNNANANNN"
+                maxLength={10}
+                value={roll}
+                onChange={(e) => handleRollChange(e.target.value)}
+              />
+              {roll && isRollValid && (
+                <span className="valid-check-icon">
+                  <CheckIcon size={14} color="#10B981" />
+                </span>
+              )}
+            </div>
           </div>
-          <div>
-            <select value={tag} onChange={(e) => setTag(e.target.value)}>
-              <option value="">Select a tag...</option>
+          <div className="input-group">
+            <label className="input-label">Category</label>
+            <select
+              className="clean-outlined-select"
+              value={tag}
+              onChange={(e) => setTag(e.target.value)}
+            >
+              <option value="">Select a category...</option>
               <option value="📚 Study">📚 Study</option>
               <option value="🎉 Social">🎉 Social</option>
               <option value="⚡ Campus News">⚡ Campus News</option>
@@ -122,23 +143,24 @@ export default function CreatePostModal({ isOpen, onClose }) {
           </div>
         </div>
 
-        <div className="roll-format-hint">
-          Format: NNNNANANNN (Example: 2025A7R025) - N=Number, A=Alphabet
+        <div style={{ fontSize: '11.5px', color: '#71717A', margin: '4px 0 12px 0' }}>
+          Format: NNNNANANNN (Example: 2025A7R025)
         </div>
 
         <textarea
-          placeholder="Share a post or a question with the campus community..."
-          rows={5}
+          className="create-textarea"
+          placeholder="Share a post or a question..."
+          rows={4}
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
 
-        <div style={{ display: 'flex', gap: '10px', marginTop: '15px', justifyContent: 'flex-end' }}>
-          <button className="btn btn-secondary" onClick={() => handleSubmit(true)}>
-            <span>👤</span> Post Anonymously
+        <div style={{ display: 'flex', gap: '10px', marginTop: '14px', justifyContent: 'flex-end' }}>
+          <button className="btn btn-pill-grey" onClick={() => handleSubmit(true)}>
+            Post Anonymously
           </button>
-          <button className="btn" onClick={() => handleSubmit(false)}>
-            <span>📤</span> Post Publicly
+          <button className="btn btn-pill-blue" onClick={() => handleSubmit(false)}>
+            Post Publicly
           </button>
         </div>
       </div>
