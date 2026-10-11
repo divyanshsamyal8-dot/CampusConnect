@@ -26,5 +26,11 @@ app.use('*', (req, res) => {
 // Centralized error handler
 app.use(errorHandler);
 
-// To Vercel
+// Start the server when running outside Vercel
+if (!process.env.VERCEL) {
+  app.listen(config.port, '0.0.0.0', () => {
+    console.log(`Campus Connect API running on port ${config.port}`);
+  });
+}
+
 export default app;
