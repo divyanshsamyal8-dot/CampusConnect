@@ -223,46 +223,74 @@ useEffect(() => {
     saveToStorage('campusConnectComments', comments);
   }, [comments]);
 
-  const addPost = ({ text, tag, isAnon, customName, customRoll }) => {
-    if (!text.trim()) {
-      alert('Please enter some text for your post!');
-      return false;
+  
+const addPost = async ({ text, tag, isAnon, customName, customRoll }) => {
+  if (!text.trim()) {
+    alert('Please enter some text for your post!');
+    return false;
+  }
+
+  const roll = isAnon
+    ? ''
+    : (customRoll || currentUser.rollNumber || '').toUpperCase();
+
+  if (roll && !validateRollNumber(roll)) {
+    alert('Please enter a valid roll number (Format: NNNNANANNN)');
+    return false;
+  }
+
+  const name = isAnon
+    ? 'Anonymous Student'
+    : (customName || currentUser.name || 'Student');
+
+  try {
+    const response = await fetch(`${API_URL}/posts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: text.trim(),
+        author: name,
+        authorRoll: roll,
+        tag: tag || '',
+        isAnon,
+        avatarColor: isAnon
+          ? '#64748b'
+          : currentUser.avatarColor || getRandomGradient(),
+      }),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Failed to create post');
     }
 
-    const roll = isAnon ? '' : (customRoll || currentUser.rollNumber || '').toUpperCase();
-    if (roll && !validateRollNumber(roll)) {
-      alert('Please enter a valid roll number (Format: NNNNANANNN)');
-      return false;
-    }
+    const newPost = result.data;
 
-    const name = isAnon ? 'Anonymous Student' : (customName || currentUser.name || 'Student');
-    const postId = Date.now();
+    setPosts((prev) => [
+      newPost,
+      ...prev.filter((post) => post.id !== newPost.id),
+    ]);
 
-    const newPost = {
-      id: postId,
-      author: name,
-      authorRoll: roll,
-      authorInitial: isAnon ? 'A' : name.charAt(0).toUpperCase(),
-      avatarColor: isAnon ? '#64748b' : currentUser.avatarColor || getRandomGradient(),
-      text: text.trim(),
-      tag: tag || '',
-      time: formatTime(),
-      date: formatDate(),
-      likes: 0,
-      liked: false,
-      comments: 0,
-      isAnon,
-    };
-
-    setPosts((prev) => [newPost, ...prev]);
-    setComments((prev) => ({ ...prev, [postId]: [] }));
+    setComments((prev) => ({
+      ...prev,
+      [newPost.id]: [],
+    }));
 
     if (!isAnon && (customName || customRoll)) {
       updateUserProfile(customName, customRoll);
     }
 
-    return postId;
-  };
+    return newPost.id;
+  } catch (error) {
+    console.error('Error creating post:', error);
+    alert('Could not publish your post. Please try again.');
+    return false;
+  }
+};
+
 
   const likePost = (postId) => {
     setPosts((prev) =>

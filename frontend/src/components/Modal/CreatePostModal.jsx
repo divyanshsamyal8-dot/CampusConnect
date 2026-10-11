@@ -19,27 +19,34 @@ export default function CreatePostModal({ isOpen, onClose }) {
     setIsRollValid(validateRollNumber(upper));
   };
 
-  const handleSubmit = (isAnon) => {
-    if (!text.trim()) {
-      alert('Please enter some text for your post!');
-      return;
-    }
-    if (!isAnon && roll && !isRollValid) {
-      alert('Please enter a valid roll number (Format: NNNNANANNN)');
-      return;
-    }
+  
+const handleSubmit = async (isAnon) => {
+  if (!text.trim()) {
+    alert('Please enter some text for your post!');
+    return;
+  }
 
-    addPost({
-      text,
-      tag,
-      isAnon,
-      customName: name,
-      customRoll: roll,
-    });
+  if (!isAnon && roll && !isRollValid) {
+    alert('Please enter a valid roll number (Format: NNNNANANNN)');
+    return;
+  }
 
-    setText('');
-    onClose();
-  };
+  const postId = await addPost({
+    text,
+    tag,
+    isAnon,
+    customName: name,
+    customRoll: roll,
+  });
+
+  if (postId === false) {
+    return;
+  }
+
+  setText('');
+  onClose();
+};
+
 
   return (
     <div
